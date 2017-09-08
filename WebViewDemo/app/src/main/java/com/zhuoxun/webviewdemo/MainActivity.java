@@ -233,15 +233,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (webView != null && webView.canGoBack()) {
-                webView.goBack();
+        if(keyCode==KeyEvent.KEYCODE_BACK)
+        {
+            if(mWebView.canGoBack())
+            {
+                mWebView.goBack();//返回上一页面
                 return true;
-            } else
-                return super.onKeyDown(keyCode, event);
+            }
+            else
+            {
+//                System.exit(0);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                //退出程序
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mTestHandler != null)
+            mTestHandler.removeCallbacksAndMessages(null);
+        if (mWebView != null)
+            mWebView.destroy();
+        super.onDestroy();
+    }
 }
